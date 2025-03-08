@@ -45,7 +45,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
     server.close(() => {
 
-        console.log('Server is closed due to unhandled rejection....');
+        console.log('Server closed due to unhandled rejection....');
 
         // Exit with an error code
         process.exit(1);
