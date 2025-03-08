@@ -20,6 +20,8 @@ app.use(express.json());
 
 
 
+
+
 // Import all routes
 import productRoutes from "./routes/products.js";
 app.use("/api/v1", productRoutes);
@@ -35,10 +37,21 @@ const server = app.listen(process.env.PORT, () => {
 
 
 // handle unhandled promise rejection
-process.on("unhandledRejection", (err) => {
-    console.log(`ERROR: ${err}`);
-    console.log("Shutting down server");
-    process.exit(1)
+process.on('unhandledRejection', (reason, promise) => {
+
+    console.error('Unhandled Promise Rejection:', reason, promise);
+
+    // Perform cleanup tasks here, then gracefully shut down the server
+
+    server.close(() => {
+
+        console.log('Server closed due to unhandled rejection....');
+
+        // Exit with an error code
+        process.exit(1);
+
+    });
+
 });
 
 
