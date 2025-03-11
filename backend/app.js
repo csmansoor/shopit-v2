@@ -37,22 +37,26 @@ const server = app.listen(process.env.PORT, () => {
 
 
 // handle unhandled promise rejection
-process.on('unhandledRejection', (reason, promise) => {
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Promise Rejection:", reason);
 
-    console.error('Unhandled Promise Rejection:', reason, promise);
-
-    // Perform cleanup tasks here, then gracefully shut down the server
-
+    // Gracefully close the server
     server.close(() => {
-
-        console.log('Server closed due to unhandled rejection....');
-
-        // Exit with an error code
-        process.exit(1);
+        console.log("Server closed due to unhandled promise rejection.");
+        if (process.env.NODE_ENV === "DEVELOPMENT") {
+            console.log("Restarting in development mode...");
+        } else {
+            process.exit(1); // Only exit in production mode    
+        }
 
     });
 
 });
+
+// Triggering an unhandled promise rejection (for testing)
+setTimeout(() => {
+    Promise.reject(new Error("This is an unhandled promise rejection!"));
+}, 3000);
 
 
 
