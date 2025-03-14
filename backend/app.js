@@ -54,9 +54,9 @@ process.on("unhandledRejection", (reason, promise) => {
 });
 
 // Triggering an unhandled promise rejection (for testing)
-setTimeout(() => {
-    Promise.reject(new Error("This is an unhandled promise rejection!"));
-}, 3000);
+//setTimeout(() => {
+   // Promise.reject(new Error("This is an unhandled promise rejection!"));
+//}, 3000);
 
 
 

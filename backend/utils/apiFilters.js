@@ -7,14 +7,19 @@ class APIFilters {
   search() {
     const keyword = this.queryStr.keyword
     ? {
-        name: {
-            $regex: this.queryStr.keyword,
-            $options: "i",
-        },
-     }
-   :{};
+         name: {
+             $regex: this.queryStr.keyword,
+             $options: "i", // Case-insensitive search
+         },
+    
+}
+: {};
 
-   this.query = this.query.find({...keyword});
+console.log("Search Query Applied:", JSON.stringify(keyword, null, 2)); // Debugging
+
+
+
+   this.query = this.query.find({...keyword });
    return this;
 
  }  
