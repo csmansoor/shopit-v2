@@ -24,7 +24,10 @@ app.use(express.json());
 
 // Import all routes
 import productRoutes from "./routes/products.js";
+import authRoutes from "./routes/auth.js";
+
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", authRoutes);
 
 // Using error middleware
 app.use(errorsMiddleware);
