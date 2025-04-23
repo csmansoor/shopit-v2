@@ -1,6 +1,7 @@
 import catchAsyncErrors from '../middlewares/catchAsyncErrors.js'
 import User from '../models/user.js'
 import ErrorHandler from '../utils/errorHandler.js'
+import sendToken from '../utils/sendToken.js';
 
 // Register user   =>  /api/v1/register
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -12,13 +13,7 @@ export const registerUser = catchAsyncErrors(async (req, res, next) => {
     });
 
 // Generating token
-    const token = user.getJwtToken();
-
-    res.status(201).json({
-        success: true,
-        token,
-        user,
-    });
+   sendToken(user, 201, res)
 
 });
 
@@ -45,12 +40,17 @@ if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalide email or password", 401));
 }
 
-const token = user.getJwtToken();
-
-res.status(200).json({
-    success: true,
-    token,
-    user,
+  sendToken(user, 200, res);
 });
 
+// logout user   =>  /api/v1/Logout
+export const logout= catchAsyncErrors(async (req, res, next) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+
+    res.status(200).json({
+        message: "Logged Out",
+    });
 });
